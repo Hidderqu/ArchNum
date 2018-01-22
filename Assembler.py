@@ -66,7 +66,13 @@ if __name__ == "__main__":
 				#print("Add immediate value %i" %(o))
 			instr += o << 5
 
-		BIN.write('{:0>8x}'.format(instr))
+		if (codeop == "SCALL"):
+			instr += 18<< 27
+			instr += int(params[0]) #n parameter
+
+
+
+		BIN.write('0x{:0>8x}\n'.format(instr))
 
 
 
