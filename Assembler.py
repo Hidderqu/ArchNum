@@ -70,10 +70,33 @@ if __name__ == "__main__":
 			instr += 18<< 27
 			instr += int(params[0]) #n parameter
 
+		if (codeop in ["BRAZ", "BRANZ"]):
+			
+			if codeop == "BRAZ":
+				instr += 16<< 27
+			if codeop == "BRANZ":
+				instr += 17<< 27
+
+			r, a = int(params[0][1:]), int(params[1])
+			instr += r << 22
+			instr += a
+
+		if (codeop == "JMP"):
+			instr += 15<< 27
+
+			if params[0][0] == 'R':
+				instr &= ~(1<<21) #imm bit to 0
+				o = int(params[1][1:])
+			else :
+				instr |= 1<<21 #imm bit to 1
+				o = int(params[1])
+			r = int(params[0][1:])
+			instr += o << 26
+			instr += r
+
+
+		if (codeop == "STOP"):
+			instr &= 0 << 31
 
 
 		BIN.write('0x{:0>8x}\n'.format(instr))
-
-
-
-

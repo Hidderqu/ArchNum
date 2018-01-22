@@ -12,7 +12,8 @@ int main(int argc, char const *argv[])
 {
 
 	unsigned int program[32];
-	for (int i = 0; i < 32; ++i)
+	int i =0;
+	for (i = 0; i < TAILLEDATA; ++i)
 	{
 		program[i] = 0;
 	}
@@ -20,7 +21,7 @@ int main(int argc, char const *argv[])
 	//BIN Reader
 	FILE *file = fopen(argv[1], "r");
 
-	int i = 0;
+	i = 0;
 	while((fscanf(file, "%x", &program[i])) != -1){
 		printf("%x\n", program[i++%TAILLEDATA]);
 	}
