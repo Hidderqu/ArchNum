@@ -91,89 +91,251 @@ void eval()
 	  {
 	    case 1:
 	      /* add */
-	      printf( "add r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] + regs[ reg2 ];
-		printf("registre 3 : %d \n", regs[3]);
+
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] + reg2;
+		printf( "add : r%d reçoit r%d + %d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] + regs[ reg2 ];
+		printf( "add : r%d reçoit r%d + r%d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 2:
 	      /* sub */
-	      printf( "sub r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] - regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] - reg2;
+		printf( "sub : r%d reçoit r%d - r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] - regs[ reg2 ];
+		printf( "sub : r%d reçoit r%d - %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 3:
 	      /* mult */
-	      printf( "mult r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] * regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] * reg2;
+		printf( "mult : r%d reçoit r%d * r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] * regs[ reg2 ];
+		printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 4:
 	      /* div */
-	      printf( "div r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] / regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] / reg2;
+		printf( "div : r%d reçoit r%d / r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] / regs[ reg2 ];
+		printf( "div : r%d reçoit r%d / %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 5:
 	      /* and */
-	      printf( "and r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] & regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] & reg2;
+		printf( "and : r%d reçoit r%d & r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] & regs[ reg2 ];
+		printf( "and : r%d reçoit r%d & %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 6:
 	      /* or */
-	      printf( "or r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] | regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] | reg2;
+		printf( "or : r%d reçoit r%d | r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] | regs[ reg2 ];
+		printf( "or : r%d reçoit r%d | %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 7:
 	      /* xor */
-	      printf( "xor r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg2 ] ^ regs[ reg1 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = reg2 ^ regs[ reg1 ];
+		printf( "xor : r%d reçoit r%d ^ r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg2 ] ^ regs[ reg1 ];
+		printf( "xor : r%d reçoit r%d ^ %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 8:
 	      /* shl */
-	      printf( "shl r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] << regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] << reg2;
+		printf( "shl : r%d reçoit r%d << r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] << regs[ reg2 ];
+		printf( "shl : r%d reçoit r%d << %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 9:
 	      /* shr */
-	      printf( "shr r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] >> regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] >> reg2;
+		printf( "shr : r%d reçoit r%d >> r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] >> regs[ reg2 ];
+		printf( "shr : r%d reçoit r%d >> %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 10:
 	      /* slt */
-	      printf( "slt r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] < regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] < reg2;
+		printf( "slt : r%d reçoit r%d < r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] < regs[ reg2 ];
+		printf( "slt : r%d reçoit r%d < %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 11:
 	      /* sle */
-	      printf( "sle r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = regs[ reg1 ] <= regs[ reg2 ];
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = regs[ reg1 ] <= reg2;
+		printf( "sle : r%d reçoit r%d <= r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = regs[ reg1 ] <= regs[ reg2 ];
+		printf( "sle : r%d reçoit r%d <= %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 12:
 	      /* seq */
-	      printf( "seq r%d r%d r%d\n", reg1, reg2, reg3 );
-	      regs[ reg3 ] = (regs[ reg2 ] == regs[ reg1 ]);
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = (reg2 == regs[ reg1 ]);
+		printf( "seq : r%d reçoit r%d == r%d\n", reg3, reg1, reg2 );
+		}
+	      else
+		{
+	        regs[ reg3 ] = (regs[ reg2 ] == regs[ reg1 ]);
+		printf( "seq : r%d reçoit r%d == %d\n", reg3, reg1, reg2 );
+		}
 	      break;
+
 	    case 13:
 	      /* load */
-	      printf( "load r%d #%d\n", reg1, imm );
-	      regs[ reg1 ] = imm;
+	      
+	      if (imm)
+		{
+		regs[ reg3 ] = data[ regs[ reg1 ] + reg2 ];
+		printf( "load : r%d reçoit le contenu de l'adresse r%d + r%d\n", reg3, reg1, reg2);
+		}
+	      else
+		{
+		regs[ reg3 ] = data[ regs[ reg1 ] + regs[ reg2 ] ];
+		printf( "load : r%d reçoit le contenu de l'adresse r%d + %d\n", reg3, reg1, reg2);
+		}
 	      break;
+
 	    case 14:
 	      /* store */
-	      printf( "store r%d r%d r%d\n", reg1, reg2, reg3 );
+
+	      if (imm)
+		{
+		data[ regs[ reg1 ] + reg2 ] = regs[ reg3 ];
+		printf( "store : le contenu de r%d est ecrit a l'adresse r%d + r%d\n", reg3, reg1, reg2);
+		}
+	      else
+		{
+		data[ regs[ reg1 ] + regs [ reg2 ] ] = regs[ reg3 ];
+		printf( "store : le contenu de r%d est ecrit a l'adresse r%d + %d\n", reg3, reg1, reg2);
+		}
 	      break;
+
 	    case 15:
 	      /* jmp */
-	      printf( "jmp o%d R%d\n", o_JMP, R_JMP );
-	      
+	      if (imm_JMP)
+		{
+		regs[ R_JMP ] = pc++;
+		pc = o_JMP;
+		printf( "jmp : saute a l'adresse %d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
+		}
+	      else
+		{
+		regs[ R_JMP ] = pc++;
+		pc = regs[ o_JMP ];
+		printf( "jmp : saute a l'adresse r%d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
+		}
 	      break;
+
+
 	    case 16:
 	      /* braz */
-	      printf( "braz R%d a%d \n", R_BRAZ, a_BRAZ );
 
+	      if (regs[R_BRAZ] == 0)
+		{
+		pc = a_BRAZ;
+		}
+	      printf( "braz : saute a l'adresse %d si r%d == 0 \n", a_BRAZ, R_BRAZ );
 	      break;
+
 	    case 17:
 	      /* branz */
-	      printf( "branz r%d r%d \n", R_BRAZ, a_BRAZ );
 
+	      if (regs[R_BRAZ] != 0)
+		{
+		pc = a_BRAZ;
+		}
+	      printf( "branz : saute a l'adresse %d si r%d != 0 \n", a_BRAZ, R_BRAZ );	      
 	      break;
+
 	    case 18:
 	      /* scall */
 
@@ -183,17 +345,16 @@ void eval()
 			{
 			printf("Entrer une valeur : ");
 			
-			rea = strtol(fgets(tab,sizeof tab, stdin),NULL,10); //probleme lecture
-
-printf(" rea : %d \n", rea);
+			rea = strtol(fgets(tab,sizeof tab, stdin),NULL,10);
 			
-		      regs[1] = rea;
+		        regs[1] = rea;
 			}
 	      else if (n == 1)
 			{
 			printf( "affichage resultat : %d \n", regs[1] );
 			}
 	      break;
+
 	    case 0:
 	      /* stop */
 	      printf( "stop\n" );

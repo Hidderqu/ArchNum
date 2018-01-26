@@ -105,17 +105,19 @@ if __name__ == "__main__":
 
 				#Convert label to address
 				if (params[0] in labels):
-					instr &= ~(1<<21) #imm bit to 0
+					instr |= 1<<26 #imm bit to 1
 					o = labels[params[0]]
 					print("Jump to label %s at address %d" %(params[0], labels[params[0]]))
-				elif params[0][0:1] == 'R':
-					instr &= ~(1<<21) #imm bit to 0
+				elif params[0][0] == 'R':
+					instr &= ~(1<<26) #imm bit to 0
 					o = int(params[0][1:])
+					print("Jump to address stored in register R%d" %(o))
 				else :
-					instr |= 1<<21 #imm bit to 1
-					o = int(params[1])
+					instr |= 1<<26 #imm bit to 1
+					o = int(params[0])
+					print("Jump to address %d" %(o))
 				r = int(params[1][1:])
-				instr += o << 26
+				instr += o << 5
 				instr += r
 
 
