@@ -96,7 +96,14 @@ if __name__ == "__main__":
 				if codeop == "BRANZ":
 					instr += 17<< 27
 
-				r, a = int(params[0][1:]), int(params[1])
+				if (params[1] in labels):
+					a = labels[params[1]]
+					print("Bra(n)z to label %s at address %d" %(params[1], labels[params[1]]))
+
+				else:
+					a = int(params[1])
+				
+				r = int(params[0][1:])
 				instr += r << 22
 				instr += a
 
