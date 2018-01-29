@@ -4,6 +4,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <time.h>
 #define TAILLE 30
 #define NUM_REGS 32
 #define TAILLEDATA 1024
@@ -28,7 +29,8 @@ void init(int argc, char const *argv[])
 
 	i = 0;
 	while((fscanf(file, "%x", &program[i])) != -1){
-		printf("%x\n", program[i++%TAILLEDATA]);
+		i++;
+		//printf("%x\n", program[i++%TAILLEDATA]);
 }
 	fclose(file);
 
@@ -82,6 +84,10 @@ void decode( int instr )
 
 /* the VM runs until this flag becomes 0 */
 int running = 1;
+/* evaluate the number of instructions done up to the end */
+int performance = 0;
+/* time to evaluate the performance of the ISS */
+time_t debut, fin;
 /* evaluate the last decoded instruction */
 void eval()
 {
@@ -102,6 +108,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] + regs[ reg2 ];
 		printf( "add : r%d reçoit r%d + r%d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 2:
@@ -117,6 +124,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] - regs[ reg2 ];
 		printf( "sub : r%d reçoit r%d - %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 3:
@@ -132,6 +140,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] * regs[ reg2 ];
 		printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 4:
@@ -147,6 +156,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] / regs[ reg2 ];
 		printf( "div : r%d reçoit r%d / %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 5:
@@ -162,6 +172,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] & regs[ reg2 ];
 		printf( "and : r%d reçoit r%d & %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 6:
@@ -177,6 +188,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] | regs[ reg2 ];
 		printf( "or : r%d reçoit r%d | %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 7:
@@ -192,6 +204,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg2 ] ^ regs[ reg1 ];
 		printf( "xor : r%d reçoit r%d ^ %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 8:
@@ -207,6 +220,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] << regs[ reg2 ];
 		printf( "shl : r%d reçoit r%d << %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 9:
@@ -222,6 +236,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] >> regs[ reg2 ];
 		printf( "shr : r%d reçoit r%d >> %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 10:
@@ -237,6 +252,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] < regs[ reg2 ];
 		printf( "slt : r%d reçoit r%d < %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 11:
@@ -252,6 +268,7 @@ void eval()
 	        regs[ reg3 ] = regs[ reg1 ] <= regs[ reg2 ];
 		printf( "sle : r%d reçoit r%d <= %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 12:
@@ -267,6 +284,7 @@ void eval()
 	        regs[ reg3 ] = (regs[ reg2 ] == regs[ reg1 ]);
 		printf( "seq : r%d reçoit r%d == %d\n", reg3, reg1, reg2 );
 		}
+	      performance++;
 	      break;
 
 	    case 13:
@@ -282,6 +300,7 @@ void eval()
 		regs[ reg3 ] = data[ regs[ reg1 ] + regs[ reg2 ] ];
 		printf( "load : r%d reçoit le contenu de l'adresse r%d + %d\n", reg3, reg1, reg2);
 		}
+	      performance++;
 	      break;
 
 	    case 14:
@@ -297,6 +316,7 @@ void eval()
 		data[ regs[ reg1 ] + regs [ reg2 ] ] = regs[ reg3 ];
 		printf( "store : le contenu de r%d est ecrit a l'adresse r%d + %d\n", reg3, reg1, reg2);
 		}
+	      performance++;
 	      break;
 
 	    case 15:
@@ -313,6 +333,7 @@ void eval()
 		pc = regs[ o_JMP ];
 		printf( "jmp : saute a l'adresse r%d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
 		}
+	      performance++;
 	      break;
 
 
@@ -324,6 +345,7 @@ void eval()
 		pc = a_BRAZ;
 		}
 	      printf( "braz : saute a l'adresse %d si r%d == 0 \n", a_BRAZ, R_BRAZ );
+	      performance++;
 	      break;
 
 	    case 17:
@@ -334,6 +356,7 @@ void eval()
 		pc = a_BRAZ;
 		}
 	      printf( "branz : saute a l'adresse %d si r%d != 0 \n", a_BRAZ, R_BRAZ );	      
+	      performance++;
 	      break;
 
 	    case 18:
@@ -353,12 +376,14 @@ void eval()
 			{
 			printf( "affichage resultat : %d \n", regs[1] );
 			}
+	      performance++;
 	      break;
 
 	    case 0:
 	      /* stop */
 	      printf( "stop\n" );
 	      running = 0;
+	      performance++;
 	      break;
 
   }
@@ -379,17 +404,19 @@ void run()
 {
 	while( running )
 		{
-		showRegs();
+		//showRegs();
 		int instr = fetch();
 		decode( instr );
 		eval();
 		}
-	showRegs();
+	//showRegs();
 }
 
 int main( int argc, const char * argv[] )
-{ 
+{ time(&debut);
   init(argc, argv);
   run();
+  time(&fin);
+  printf("Le programme effectue en moyenne %f operations par seconde\n",performance/difftime(fin, debut));
   return 0;
 }
