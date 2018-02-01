@@ -133,12 +133,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] * reg2;
-		printf( "mult : r%d reçoit r%d * r%d\n", reg3, reg1, reg2 );
+		printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] * regs[ reg2 ];
-		printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
+		printf( "mult : r%d reçoit r%d * r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;

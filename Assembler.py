@@ -29,7 +29,11 @@ if __name__ == "__main__":
 	#Label recording
 	for line in instrASM:
 
-		if line[-2] == ':':
+		#Ignore blank lines
+		if line == "\n":
+			pass
+
+		elif line[-2] == ':':
 			label = line.split(':')[0]
 			labels[label] = l
 		else:
@@ -45,10 +49,13 @@ if __name__ == "__main__":
 
 		instr = 0
 		
-		#Ingore labels
-		if line[-2] == ':':
+		#Ignore blank lines
+		if line == "\n":
 			pass
 
+		#Ingore labels
+		elif line[-2] == ':':
+			pass
 
 		#STOP detection
 		elif line == "STOP":
