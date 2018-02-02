@@ -101,12 +101,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] + reg2;
-		printf( "add : r%d reçoit r%d + %d\n", reg3, reg1, reg2 );
+		//printf( "add : r%d reçoit r%d + %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] + regs[ reg2 ];
-		printf( "add : r%d reçoit r%d + r%d\n", reg3, reg1, reg2 );
+		//printf( "add : r%d reçoit r%d + r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -117,12 +117,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] - reg2;
-		printf( "sub : r%d reçoit r%d - r%d\n", reg3, reg1, reg2 );
+		//printf( "sub : r%d reçoit r%d - %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] - regs[ reg2 ];
-		printf( "sub : r%d reçoit r%d - %d\n", reg3, reg1, reg2 );
+		//printf( "sub : r%d reçoit r%d - r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -133,14 +133,14 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] * reg2;
-		printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
+		//printf( "mult : r%d reçoit r%d * %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] * regs[ reg2 ];
-		printf( "mult : r%d reçoit r%d * r%d\n", reg3, reg1, reg2 );
+		//printf( "mult : r%d reçoit r%d * r%d\n", reg3, reg1, reg2 );
 		}
-	      performance++;
+	      performance += 2;
 	      break;
 
 	    case 4:
@@ -149,14 +149,14 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] / reg2;
-		printf( "div : r%d reçoit r%d / r%d\n", reg3, reg1, reg2 );
+		//printf( "div : r%d reçoit r%d / %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] / regs[ reg2 ];
-		printf( "div : r%d reçoit r%d / %d\n", reg3, reg1, reg2 );
+		//printf( "div : r%d reçoit r%d / r%d\n", reg3, reg1, reg2 );
 		}
-	      performance++;
+	      performance += 2;
 	      break;
 
 	    case 5:
@@ -165,12 +165,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] & reg2;
-		printf( "and : r%d reçoit r%d & r%d\n", reg3, reg1, reg2 );
+		//printf( "and : r%d reçoit r%d & %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] & regs[ reg2 ];
-		printf( "and : r%d reçoit r%d & %d\n", reg3, reg1, reg2 );
+		//printf( "and : r%d reçoit r%d & r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -181,12 +181,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] | reg2;
-		printf( "or : r%d reçoit r%d | r%d\n", reg3, reg1, reg2 );
+		//printf( "or : r%d reçoit r%d | %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] | regs[ reg2 ];
-		printf( "or : r%d reçoit r%d | %d\n", reg3, reg1, reg2 );
+		//printf( "or : r%d reçoit r%d | r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -197,12 +197,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = reg2 ^ regs[ reg1 ];
-		printf( "xor : r%d reçoit r%d ^ r%d\n", reg3, reg1, reg2 );
+		//printf( "xor : r%d reçoit r%d ^ %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg2 ] ^ regs[ reg1 ];
-		printf( "xor : r%d reçoit r%d ^ %d\n", reg3, reg1, reg2 );
+		//printf( "xor : r%d reçoit r%d ^ r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -213,12 +213,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] << reg2;
-		printf( "shl : r%d reçoit r%d << r%d\n", reg3, reg1, reg2 );
+		//printf( "shl : r%d reçoit r%d << %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] << regs[ reg2 ];
-		printf( "shl : r%d reçoit r%d << %d\n", reg3, reg1, reg2 );
+		//printf( "shl : r%d reçoit r%d << r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -229,12 +229,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] >> reg2;
-		printf( "shr : r%d reçoit r%d >> r%d\n", reg3, reg1, reg2 );
+		//printf( "shr : r%d reçoit r%d >> %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] >> regs[ reg2 ];
-		printf( "shr : r%d reçoit r%d >> %d\n", reg3, reg1, reg2 );
+		//printf( "shr : r%d reçoit r%d >> r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -245,12 +245,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] < reg2;
-		printf( "slt : r%d reçoit r%d < r%d\n", reg3, reg1, reg2 );
+		//printf( "slt : r%d reçoit r%d < %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] < regs[ reg2 ];
-		printf( "slt : r%d reçoit r%d < %d\n", reg3, reg1, reg2 );
+		//printf( "slt : r%d reçoit r%d < r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -261,12 +261,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = regs[ reg1 ] <= reg2;
-		printf( "sle : r%d reçoit r%d <= r%d\n", reg3, reg1, reg2 );
+		//printf( "sle : r%d reçoit r%d <= %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = regs[ reg1 ] <= regs[ reg2 ];
-		printf( "sle : r%d reçoit r%d <= %d\n", reg3, reg1, reg2 );
+		//printf( "sle : r%d reçoit r%d <= r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -277,12 +277,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = (reg2 == regs[ reg1 ]);
-		printf( "seq : r%d reçoit r%d == r%d\n", reg3, reg1, reg2 );
+		//printf( "seq : r%d reçoit r%d == %d\n", reg3, reg1, reg2 );
 		}
 	      else
 		{
 	        regs[ reg3 ] = (regs[ reg2 ] == regs[ reg1 ]);
-		printf( "seq : r%d reçoit r%d == %d\n", reg3, reg1, reg2 );
+		//printf( "seq : r%d reçoit r%d == r%d\n", reg3, reg1, reg2 );
 		}
 	      performance++;
 	      break;
@@ -293,12 +293,12 @@ void eval()
 	      if (imm)
 		{
 		regs[ reg3 ] = data[ regs[ reg1 ] + reg2 ];
-		printf( "load : r%d reçoit le contenu de l'adresse r%d + r%d\n", reg3, reg1, reg2);
+		//printf( "load : r%d reçoit le contenu de l'adresse r%d + %d\n", reg3, reg1, reg2);
 		}
 	      else
 		{
 		regs[ reg3 ] = data[ regs[ reg1 ] + regs[ reg2 ] ];
-		printf( "load : r%d reçoit le contenu de l'adresse r%d + %d\n", reg3, reg1, reg2);
+		//printf( "load : r%d reçoit le contenu de l'adresse r%d + r%d\n", reg3, reg1, reg2);
 		}
 	      performance++;
 	      break;
@@ -309,12 +309,12 @@ void eval()
 	      if (imm)
 		{
 		data[ regs[ reg1 ] + reg2 ] = regs[ reg3 ];
-		printf( "store : le contenu de r%d est ecrit a l'adresse r%d + r%d\n", reg3, reg1, reg2);
+		//printf( "store : le contenu de r%d est ecrit a l'adresse r%d + %d\n", reg3, reg1, reg2);
 		}
 	      else
 		{
 		data[ regs[ reg1 ] + regs [ reg2 ] ] = regs[ reg3 ];
-		printf( "store : le contenu de r%d est ecrit a l'adresse r%d + %d\n", reg3, reg1, reg2);
+		//printf( "store : le contenu de r%d est ecrit a l'adresse r%d + r%d\n", reg3, reg1, reg2);
 		}
 	      performance++;
 	      break;
@@ -325,15 +325,15 @@ void eval()
 		{
 		regs[ R_JMP ] = pc++;
 		pc = o_JMP;
-		printf( "jmp : saute a l'adresse %d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
+		//printf( "jmp : saute a l'adresse %d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
 		}
 	      else
 		{
 		regs[ R_JMP ] = pc++;
 		pc = regs[ o_JMP ];
-		printf( "jmp : saute a l'adresse r%d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
+		//printf( "jmp : saute a l'adresse r%d et stocke l'adresse de l'instruction suivant le jmp dans r%d\n", o_JMP, R_JMP );
 		}
-	      performance++;
+	      performance += 2;
 	      break;
 
 
@@ -344,8 +344,8 @@ void eval()
 		{
 		pc = a_BRAZ;
 		}
-	      printf( "braz : saute a l'adresse %d si r%d == 0 \n", a_BRAZ, R_BRAZ );
-	      performance++;
+	      //printf( "braz : saute a l'adresse %d si r%d == 0 \n", a_BRAZ, R_BRAZ );
+	      performance += 2;
 	      break;
 
 	    case 17:
@@ -355,18 +355,18 @@ void eval()
 		{
 		pc = a_BRAZ;
 		}
-	      printf( "branz : saute a l'adresse %d si r%d != 0 \n", a_BRAZ, R_BRAZ );	      
-	      performance++;
+	      //printf( "branz : saute a l'adresse %d si r%d != 0 \n", a_BRAZ, R_BRAZ );	      
+	      performance += 2;
 	      break;
 
 	    case 18:
 	      /* scall */
 
-	      printf( "scall(n) n%d \n", n );
+	      //printf( "scall(n) n%d \n", n );
 
 	      if (n == 0)
 			{
-			printf("Entrer une valeur : ");
+			printf("Entrez une valeur : ");
 			
 			rea = strtol(fgets(tab,sizeof tab, stdin),NULL,10);
 			
@@ -374,14 +374,14 @@ void eval()
 			}
 	      else if (n == 1)
 			{
-			printf( "affichage resultat : %d \n", regs[1] );
+			printf( "Affichage : %d \n", regs[1] );
 			}
 	      performance++;
 	      break;
 
 	    case 0:
 	      /* stop */
-	      printf( "stop\n" );
+	      printf( "End of program\n" );
 	      running = 0;
 	      performance++;
 	      break;
