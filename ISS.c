@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <time.h>
+#include <sys/time.h>
 #define TAILLE 30
 #define NUM_REGS 32
 #define TAILLEDATA 1024
@@ -86,8 +87,8 @@ void decode( int instr )
 int running = 1;
 /* evaluate the number of instructions done up to the end */
 int performance = 0;
-/* time to evaluate the performance of the ISS */
-time_t debut, fin;
+/* Temps initial defini ici pour eviter de compter le temps des scall */
+clock_t debut;
 /* evaluate the last decoded instruction */
 void eval()
 {
@@ -371,6 +372,7 @@ void eval()
 			rea = strtol(fgets(tab,sizeof tab, stdin),NULL,10);
 			
 		        regs[1] = rea;
+			debut = clock();
 			}
 	      else if (n == 1)
 			{
@@ -413,10 +415,15 @@ void run()
 }
 
 int main( int argc, const char * argv[] )
-{ time(&debut);
+{ 
+  clock_t fin;
+  debut = clock();
   init(argc, argv);
   run();
-  time(&fin);
-  printf("Le programme effectue en moyenne %f operations par seconde\n",performance/difftime(fin, debut));
+  fin = clock();
+  double total_time = (double)(fin - debut)/CLOCKS_PER_SEC;
+  double ops_per_sec = (double)performance/total_time;
+
+  printf("Le programme effectue %d operations en %lf secondes soit une fréquence de %lf MHz\n", performance, total_time, ops_per_sec/10E6);
   return 0;
 }

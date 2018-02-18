@@ -59,6 +59,7 @@ if __name__ == "__main__":
 
 		#STOP detection
 		elif line == "STOP":
+			print("Encoding STOP")
 			instr = 0
 			BIN.write('0x{:0>8x}\n'.format(instr))
 
