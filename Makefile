@@ -1,12 +1,23 @@
-default: ISS.c
+default:
+	make Run
+
+
+Recompile: ISS.c
 	gcc -Wall ISS.c -o ISS.exe
+
 
 assemble: Assembler.py ASM.txt
 	python3 Assembler.py ASM.txt BIN.txt
-	
-runBIN: ISS.exe BIN.txt
-	./ISS.exe BIN.txt
 
-runASM:
+initRegs: Initializer.py initASM.txt
+	python3 Initializer.py initASM.txt initBIN.txt
+
+
+IniRun: ISS.exe
+	make initRegs
 	make assemble
-	make runBIN
+	./ISS.exe BIN.txt initBIN.txt
+
+Run: ISS.exe
+	make assemble
+	./ISS.exe BIN.txt

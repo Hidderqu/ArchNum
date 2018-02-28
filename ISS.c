@@ -16,6 +16,16 @@ int regs[ NUM_REGS ];
 int unsigned program[TAILLEDATA];
 int data[TAILLE];
 
+/* program counter */
+int pc = 0;
+/* state variable */
+int running = 0;
+/* evaluate the number of instructions done up to the end */
+int performance = 0;
+/* Temps initial defini ici pour eviter de compter le temps des scall */
+clock_t debut;
+clock_t fin;
+
 
 void init(int argc, char const *argv[])
 {
@@ -25,26 +35,57 @@ void init(int argc, char const *argv[])
 		program[i] = 0;
 	}
 
-	//BIN Reader
-	FILE *file = fopen(argv[1], "r");
-
 	i = 0;
+
+	//BIN Reader
+	FILE *file = fopen(argv[1], "r"); //Program file
 	while((fscanf(file, "%x", &program[i])) != -1){
 		i++;
-		//printf("%x\n", program[i++%TAILLEDATA]);
 }
+	
 	fclose(file);
-
+	printf("Initialized program\n");
 
 	i = 0;
+	running = 1;
+	performance = 0;
+	pc = 0;
+                            
+}
+
+
+void initMem(int argc, char const *argv[])
+{
+	int i;
+	for (i = 0; i < TAILLEDATA; ++i)
+	{
+		program[i] = 0;
+	}
+
+	i = 0;
+
+	if (argc == 3) //Initialization file given
+	{
+		FILE *file = fopen(argv[2], "r"); //Ini file
+		while((fscanf(file, "%x", &program[i])) != -1){
+			i++;
+		}
+
+		fclose(file);
+		printf("Initialized memory\n");
+
+	running = 1;
+	pc = 0;
+		
+	}
                             
 }
 
 
 
 
-/* program counter */
-int pc = 0;
+
+
 
 /* fetch the next word from the program */
 int fetch()
@@ -67,28 +108,21 @@ int n  = 0;
 /* decode a word */
 void decode( int instr )
 	{
-	 instrNum = (instr & 0xF8000000) >> 27;
-	 reg1     = (instr & 0x7C00000 ) >>  22;
-	 reg2     = (instr & 0x1FFFE0 ) >>  5;
-	 reg3     = (instr & 0x1F   );
-	 imm      = (instr & 0x200000 ) >> 21;
+		instrNum = (instr & 0xF8000000) >> 27;
+		reg1     = (instr & 0x7C00000 ) >>  22;
+		reg2     = (instr & 0x1FFFE0 ) >>  5;
+		reg3     = (instr & 0x1F   );
+		imm      = (instr & 0x200000 ) >> 21;
+		imm_JMP  = (instr & 0x4000000 ) >> 26;
+		o_JMP    = (instr & 0x3FFFFE0 ) >> 5;
+    	R_JMP    = (instr & 0x1F );
+    	R_BRAZ   = (instr & 0x7C00000 ) >> 22;
+    	a_BRAZ   = (instr & 0x3FFFFF );
+    	n        = (instr & 0x7FFFFFF );
 
-	 imm_JMP  = (instr & 0x4000000 ) >> 26;
-	 o_JMP    = (instr & 0x3FFFFE0 ) >> 5;
-         R_JMP    = (instr & 0x1F );
-         R_BRAZ   = (instr & 0x7C00000 ) >> 22;
-         a_BRAZ   = (instr & 0x3FFFFF );
-         n        = (instr & 0x7FFFFFF );
-
-	// printf("instrNum : %d reg1 : %d\n", instrNum, reg1);
+		// printf("instrNum : %d reg1 : %d\n", instrNum, reg1);
 	}
 
-/* the VM runs until this flag becomes 0 */
-int running = 1;
-/* evaluate the number of instructions done up to the end */
-int performance = 0;
-/* Temps initial defini ici pour eviter de compter le temps des scall */
-clock_t debut;
 /* evaluate the last decoded instruction */
 void eval()
 {
@@ -416,9 +450,10 @@ void run()
 
 int main( int argc, const char * argv[] )
 { 
-  clock_t fin;
-  debut = clock();
+  initMem(argc, argv);
+  run();
   init(argc, argv);
+  debut = clock();
   run();
   fin = clock();
   double total_time = (double)(fin - debut)/CLOCKS_PER_SEC;

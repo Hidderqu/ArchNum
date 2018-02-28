@@ -72,7 +72,7 @@ if __name__ == "__main__":
 			instr += codes[codeop] << 27
 
 
-			#Encoding 3 arguments operations
+			#Encoding 3-argument operations
 			if (codeop in ["ADD", "SUB", "MULT", "DIV", "AND", "OR", "XOR", "SHL", "SHR", "SLT", "SLE", "SEQ", "LOAD", "STORE"]):
 				
 				ra, rb = int(params[0][1:]), int(params[2][1:])
