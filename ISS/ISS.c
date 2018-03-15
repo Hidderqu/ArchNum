@@ -6,15 +6,115 @@
 #include <fcntl.h>
 #include <time.h>
 #include <sys/time.h>
+#include<math.h>
+
 #define TAILLE 30
 #define NUM_REGS 32
 #define TAILLEDATA 1024
 #define TAILLE_MAX 1000
 
 
+#define OFFSET_BITS 4 //(int)pow(2,2)
+#define SET_BITS 64 //(int)pow(2,6)
+#define TAG_BITS 2
+
+
 int regs[ NUM_REGS ];
 int unsigned program[TAILLEDATA];
 int data[TAILLE];
+
+/* ---------------- Cache Functions ------------------------ */
+
+typedef struct addr_sliced {
+	int set;
+	int tag;
+	int offset;
+} addr_sliced;
+
+
+typedef struct line {
+	int set;
+	int valid;
+	int tag;
+	int bloc[OFFSET_BITS];
+} line;
+
+
+typedef struct Cache {
+	line memoire[SET_BITS];
+} Cache;
+
+Cache ini_cache()
+{	
+	Cache cache_data;
+	int i;
+	int j;
+	for (i=0 ;i<SET_BITS; i++)
+	{
+		cache_data.memoire[i].set = i;
+		cache_data.memoire[i].valid = 0;
+		cache_data.memoire[i].tag = 0;
+		for (j=0 ; j<OFFSET_BITS ; j++)
+		{
+			cache_data.memoire[i].bloc[j] = 0;
+		}
+	}
+	return cache_data;
+}
+
+
+Cache cache_data;
+
+addr_sliced slice_addr(int addr)
+{
+	addr_sliced new_addr;
+	new_addr.tag     = (addr & 0x300) >> 8;
+	new_addr.set     = (addr & 0xFC ) >>  2;
+	new_addr.offset  = (addr & 0x3 );
+	return new_addr;
+}
+
+
+void write_to_cache(addr_sliced addr)
+{
+	line myline;
+	myline.valid = 1;
+	myline.tag = addr.tag;
+	myline.set = addr.set;
+	int i;
+	int adresse = 0;
+	adresse = (addr.tag << 9) + (addr.set << 2);
+	for (i=0;i<OFFSET_BITS;i++)
+	{
+		myline.bloc[i] = data[adresse + i];
+	}
+	cache_data.memoire[addr.set] = myline;
+}
+
+
+void is_in_cache(addr_sliced addr)
+{
+	if (cache_data.memoire[addr.set].valid == 1 && addr.tag == cache_data.memoire[addr.set].tag)
+	{
+	printf("Cache hit\n");
+	}
+	else
+	{
+	write_to_cache(addr); 
+	printf("Cache miss\n");
+	}
+}
+
+
+int get_from_cache(int addr)
+{	
+	int info;
+	addr_sliced new_addr = slice_addr(addr);
+	is_in_cache(new_addr);
+	info = (cache_data.memoire[new_addr.set]).bloc[new_addr.offset];
+	return info;
+}
+
 
 /* program counter */
 int pc = 0;
@@ -77,14 +177,8 @@ void initMem(int argc, char const *argv[])
 	running = 1;
 	pc = 0;
 		
-	}
-                            
+	}                          
 }
-
-
-
-
-
 
 
 /* fetch the next word from the program */
@@ -105,6 +199,7 @@ int R_JMP  = 0;
 int R_BRAZ  = 0;
 int a_BRAZ  = 0;
 int n  = 0;
+
 /* decode a word */
 void decode( int instr )
 	{
@@ -327,12 +422,17 @@ void eval()
 	      
 	      if (imm)
 		{
-		regs[ reg3 ] = data[ regs[ reg1 ] + reg2 ];
+
+		regs[ reg3 ] = get_from_cache(regs[ reg1 ] + reg2);
+		//regs[ reg3 ] = data[ regs[ reg1 ] + reg2 ];
+
 		//printf( "load : r%d reçoit le contenu de l'adresse r%d + %d\n", reg3, reg1, reg2);
 		}
 	      else
 		{
-		regs[ reg3 ] = data[ regs[ reg1 ] + regs[ reg2 ] ];
+
+		regs[ reg3 ] = get_from_cache(regs[ reg1 ] + regs[ reg2 ]);
+		//regs[ reg3 ] = data[ regs[ reg1 ] + regs[ reg2 ] ];
 		//printf( "load : r%d reçoit le contenu de l'adresse r%d + r%d\n", reg3, reg1, reg2);
 		}
 	      performance++;
@@ -453,6 +553,7 @@ int main( int argc, const char * argv[] )
   initMem(argc, argv);
   run();
   init(argc, argv);
+  cache_data = ini_cache();
   debut = clock();
   run();
   fin = clock();

@@ -1,6 +1,5 @@
 default:
-	make Run
-
+	make IniRun
 
 Recompile: ISS.c
 	gcc -Wall ISS.c -o ISS.exe
