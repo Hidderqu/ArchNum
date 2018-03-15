@@ -1,0 +1,5 @@
+1st input : a
+2nd input : x
+3rd input : b
+
+Output : a*x + b

@@ -1,0 +1,12 @@
+
+Matrix Prodcut Raw
+----------------------------
+Inputs 1 - 9: Terms of the A matrix row by row
+Inputs 10 - 18: Terms of the B matrix column by column
+
+
+Matrix Product
+----------------------------
+Use the matrixInit.inm file,
+Inputs 1 - 9: Terms of the A matrix row by row
+Inputs 10 - 18: Terms of the B matrix column by column

@@ -1,0 +1,4 @@
+1st input: 1st term u(0)
+2nd input: rank 'n'
+
+Output: u(n)

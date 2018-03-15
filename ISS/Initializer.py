@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
 			BIN.write('0x{:0>8x}\n'.format(instr)) #STORE R0,mem,R1
 
-			print("Initialized memory space {} with value {}".format(mem, val))
+			#print("Initialized memory space {} with value {}".format(mem, val))
 
 	instr = 0
 	instr += 1 << 27 #ADD instruction
@@ -48,4 +48,4 @@ if __name__ == "__main__":
 	BIN.write('0x{:0>8x}\n'.format(instr)) #ADD R0,0,R1 (R1 back to 0)
 	BIN.write('0x{:0>8x}\n'.format(0)) #ADD R0,0,R1 (R1 back to 0)
 
-	print("\nEnd of initialization")
+	print("Generated a memory initialization binary")

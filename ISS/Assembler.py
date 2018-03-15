@@ -39,7 +39,7 @@ if __name__ == "__main__":
 		else:
 			l += 1
 		
-	print("Labels:", labels)
+	#print("Labels:", labels)
 
 
 
@@ -59,13 +59,13 @@ if __name__ == "__main__":
 
 		#STOP detection
 		elif line == "STOP":
-			print("Encoding STOP")
+			#print("Encoding STOP")
 			instr = 0
 			BIN.write('0x{:0>8x}\n'.format(instr))
 
 		#Instruction analysis
 		else:
-			print("Encoding", line)
+			#print("Encoding", line)
 			codeop, params = line.split(' ') #["Codeop"], ["R1,R2,R3\n"]
 			params = params.split('\n')[0].split(',') #["R1", "R2", "R3"]
 
@@ -141,3 +141,5 @@ if __name__ == "__main__":
 
 
 			BIN.write('0x{:0>8x}\n'.format(instr)) #Write encoded data
+
+	print("Generated a program binary from assembler code")

@@ -1,22 +1,31 @@
 default:
-	make IniRun
+	make run -s
 
-Recompile: ISS.c
+recompile: ISS.c
 	gcc -Wall ISS.c -o ISS.exe
 
+blankMem:
+	touch myInit.inm
 
-assemble: Assembler.py ASM.txt
-	python3 Assembler.py ASM.txt BIN.txt
-
-initRegs: Initializer.py initASM.txt
-	python3 Initializer.py initASM.txt initBIN.txt
+blankProg:
+	touch myProgram.asm
 
 
-IniRun: ISS.exe
-	make initRegs
-	make assemble
-	./ISS.exe BIN.txt initBIN.txt
 
-Run: ISS.exe
-	make assemble
-	./ISS.exe BIN.txt
+initRegs: Initializer.py myInit.inm
+	python3 Initializer.py myInit.inm myInit.bin
+
+assemble: Assembler.py myProgram.asm
+	python3 Assembler.py myProgram.asm myProgram.bin
+
+
+install:
+	make recompile -s
+	make blankProg -s
+	make blankMem -s
+
+
+run: ISS.exe
+	@make initRegs -s
+	@make assemble -s
+	@./ISS.exe myProgram.bin myInit.bin

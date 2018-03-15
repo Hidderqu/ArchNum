@@ -96,12 +96,12 @@ void is_in_cache(addr_sliced addr)
 {
 	if (cache_data.memoire[addr.set].valid == 1 && addr.tag == cache_data.memoire[addr.set].tag)
 	{
-	printf("Cache hit\n");
+	//printf("Cache hit\n");
 	}
 	else
 	{
 	write_to_cache(addr); 
-	printf("Cache miss\n");
+	//printf("Cache miss\n");
 	}
 }
 
@@ -501,7 +501,7 @@ void eval()
 
 	      if (n == 0)
 			{
-			printf("Entrez une valeur : ");
+			printf("Input : ");
 			
 			rea = strtol(fgets(tab,sizeof tab, stdin),NULL,10);
 			
@@ -510,14 +510,14 @@ void eval()
 			}
 	      else if (n == 1)
 			{
-			printf( "Affichage : %d \n", regs[1] );
+			printf( "Output : %d \n", regs[1] );
 			}
 	      performance++;
 	      break;
 
 	    case 0:
 	      /* stop */
-	      printf( "End of program\n" );
+	      //printf( "End of program\n" );
 	      running = 0;
 	      performance++;
 	      break;
@@ -529,7 +529,7 @@ void eval()
 void showRegs()
 {
 	int i;
-	printf( "regs = " );
+	printf( "Reg = " );
 	for( i=0; i<NUM_REGS; i++ ){
 		printf( "%04X ", regs[ i ] );
 		printf( "\n" );
@@ -560,6 +560,6 @@ int main( int argc, const char * argv[] )
   double total_time = (double)(fin - debut)/CLOCKS_PER_SEC;
   double ops_per_sec = (double)performance/total_time;
 
-  printf("Le programme effectue %d operations en %lf secondes soit une fréquence de %lf MHz\n", performance, total_time, ops_per_sec/10E6);
+  printf("%d Operations in %lf seconds - Frequency: %lf MHz\n", performance, total_time, ops_per_sec/10E6);
   return 0;
 }
