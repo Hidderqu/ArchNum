@@ -1,7 +1,7 @@
 default:
 	make run -s
 
-recompile: ISS.c
+recompile: ISS.c cache.h
 	gcc -Wall ISS.c -o ISS.exe
 
 blankMem:

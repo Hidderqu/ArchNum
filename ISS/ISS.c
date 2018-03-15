@@ -8,41 +8,44 @@
 #include <sys/time.h>
 #include<math.h>
 
+#include "cache.h"
+
 #define TAILLE 30
 #define NUM_REGS 32
 #define TAILLEDATA 1024
 #define TAILLE_MAX 1000
 
-
-#define OFFSET_BITS 4 //(int)pow(2,2)
-#define SET_BITS 64 //(int)pow(2,6)
-#define TAG_BITS 2
-
-
 int regs[ NUM_REGS ];
 int unsigned program[TAILLEDATA];
 int data[TAILLE];
 
+/* program counter */
+int pc = 0;
+/* state variable */
+int running = 0;
+/* evaluate the number of instructions done up to the end */
+int performance = 0;
+/* Temps initial defini ici pour eviter de compter le temps des scall */
+clock_t debut;
+clock_t fin;
+
+Cache cache_data;
+int ch = 0; // Cache Hit counter
+int cm = 0; // Cache Miss counter
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ---------------- Cache Functions ------------------------ */
-
-typedef struct addr_sliced {
-	int set;
-	int tag;
-	int offset;
-} addr_sliced;
-
-
-typedef struct line {
-	int set;
-	int valid;
-	int tag;
-	int bloc[OFFSET_BITS];
-} line;
-
-
-typedef struct Cache {
-	line memoire[SET_BITS];
-} Cache;
 
 Cache ini_cache()
 {	
@@ -62,8 +65,6 @@ Cache ini_cache()
 	return cache_data;
 }
 
-
-Cache cache_data;
 
 addr_sliced slice_addr(int addr)
 {
@@ -97,11 +98,13 @@ void is_in_cache(addr_sliced addr)
 	if (cache_data.memoire[addr.set].valid == 1 && addr.tag == cache_data.memoire[addr.set].tag)
 	{
 	//printf("Cache hit\n");
+	ch ++;
 	}
 	else
 	{
 	write_to_cache(addr); 
 	//printf("Cache miss\n");
+	cm ++;
 	}
 }
 
@@ -116,16 +119,14 @@ int get_from_cache(int addr)
 }
 
 
-/* program counter */
-int pc = 0;
-/* state variable */
-int running = 0;
-/* evaluate the number of instructions done up to the end */
-int performance = 0;
-/* Temps initial defini ici pour eviter de compter le temps des scall */
-clock_t debut;
-clock_t fin;
 
+
+
+
+
+
+
+/* ------------------ Initialization Functions -------------------------- */
 
 void init(int argc, char const *argv[])
 {
@@ -179,6 +180,19 @@ void initMem(int argc, char const *argv[])
 		
 	}                          
 }
+
+
+
+
+
+
+
+
+
+
+
+
+/* ------------------ ISS Functions ------------------------ */
 
 
 /* fetch the next word from the program */
@@ -548,6 +562,16 @@ void run()
 	//showRegs();
 }
 
+
+
+
+
+
+
+
+
+/* ------------- Main ----------------- */
+
 int main( int argc, const char * argv[] )
 { 
   initMem(argc, argv);
@@ -560,6 +584,7 @@ int main( int argc, const char * argv[] )
   double total_time = (double)(fin - debut)/CLOCKS_PER_SEC;
   double ops_per_sec = (double)performance/total_time;
 
-  printf("%d Operations in %lf seconds - Frequency: %lf MHz\n", performance, total_time, ops_per_sec/10E6);
+  printf("[+] %d Operations in %lf seconds - Frequency: %lf MHz\n", performance, total_time, ops_per_sec/10E6);
+  printf("[+] Cache - %d hits / %d misses\n", ch, cm);
   return 0;
 }
