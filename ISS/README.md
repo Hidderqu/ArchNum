@@ -7,9 +7,10 @@ This Instruction Set Simulator is ready to launch, out of the box.
 
 - Write a piece of assembler code or choose one from the ASM_Programs folder
 - Run launch.py with Python 3
-- Make sure to enter the 'install' command on the first run
+- Make sure to run the 'install' command on the first run
 - :)
 
 *Debugging*
+---
 The most common issue is the ISS not being able to find your python path.
 For this, open the Makefile and change 'python3' to your own Python3 path.
