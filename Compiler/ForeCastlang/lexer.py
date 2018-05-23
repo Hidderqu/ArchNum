@@ -12,14 +12,23 @@ regexExpressions = [
     (r'sun\b', 'SUN'),
     (r'cloud\b', 'CLOUD'),
     (r'rainfall\b', 'RAINFALL'),
-    (r'forecast\%\b', 'MAIN'),
+    (r'forecast\%', 'MAIN'),
     (r'vitesse\b', 'VITESSE'),
     (r'direction\b', 'DIRECTION'),
     (r'position\b', 'POSITION'),
     (r'duree\b', 'DUREE'),
     (r'indiceUV\b', 'UV'),
-    (r'type\b', 'TYPE'),
+    (r'type_rainfall\b', 'TYPE_RAIN'),
+    (r'type_cloud\b', 'TYPE_CLOUD'),
     (r'intensite\b', 'INTENSITE'),
+    (r'pluie\b', 'PLUIE'),
+    (r'neige\b', 'NEIGE'),
+    (r'cumulonimbus\b', 'CUMULONIMBUS'),
+    (r'cirrus\b', 'CIRRUS'),
+    (r'cumulus\b', 'CUMULUS'),
+    (r'faible\b', 'FAIBLE'),
+    (r'forte\b', 'FORTE'),
+    (r'normale\b', 'NORMALE'),
     (r'\/\*', 'LCOMMENT'),
     (r'\*\/', 'RCOMMENT'),
     (r'\(', 'LPAREN'),
@@ -30,6 +39,7 @@ regexExpressions = [
     (r'\]', 'RBRACKET'),
     (r'\;', 'SEMICOLON'),
     (r'\:', 'COLON'),
+    (r'\,', 'COMMA'),
     (r'\/\/', 'SEPARATOR'),
     (r'\|', 'BAR'),
     (r'\.', 'DOT'),
@@ -39,11 +49,11 @@ regexExpressions = [
     (r'\<', 'WEST'),
     (r'\>', 'EAST'),
     (r'\^', 'NORTH'),
-    (r'\V', 'SOUTH'),
+    (r'V', 'SOUTH'),
     (r'\-\>', 'MOVE'),
-    (r'[a-z0-9_]+', 'IDENTIFIER'),
     (r'\d+\.\d+', 'LONGLAT'),
-    (r'\d+', 'POS'),
+    (r'\d+', 'INT'),
+    (r'[a-z0-9_]+', 'IDENTIFIER'),
 ]
 
 
@@ -71,8 +81,7 @@ class Lexer:
                             self.tokens.append(token)
                         break
                 if not match:
-                    print(inputText[position])
-                    print("no match")
+                    print("No match - L:{}, C:{}".format(lineNumber, position))
                     sys.exit(1)
                 else:
                     position = match.end(0)
@@ -81,7 +90,7 @@ class Lexer:
 
 
 def main():
-    inputText = open("../Test/add.c").readlines()
+    inputText = open("./test0.met").readlines()
     myLex = Lexer()
     for token in (myLex.lex(inputText)):
         print (token)

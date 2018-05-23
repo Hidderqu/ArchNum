@@ -1,0 +1,46 @@
+wind1 =
+	wind{
+	vitesse:20;
+	direction:>;
+	position:(10,10);
+	duree:10
+	}
+
+sun1 =
+	sun{
+	indiceUV:41;
+	position:(14,12);
+	duree:21
+	}
+
+cloud1 =
+	cloud{
+	type_cloud:cumulonimbus;
+	position:(14,16);
+	duree:41
+	}
+
+rainfall1 =
+	rainfall{
+	type_rainfall:pluie;
+	intensite:forte;
+	position:(24,41);
+	duree:14
+	}
+
+forecast%
+
+in | 10-16
+[
+sun1 -> (24,13);
+
+wind1.vitesse:12;
+wind1.direction:V
+];
+
+at | 18
+[
+sun1 *
+];
+
+map [wind1;cloud1;sun1;rainfall1 // 15.65;54.54 // 24;14]
