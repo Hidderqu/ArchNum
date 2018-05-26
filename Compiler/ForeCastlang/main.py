@@ -2,6 +2,7 @@ import sys
 import argparse
 from lexer import Lexer
 from parser import Parser
+import visitor
 
 
 if __name__ == '__main__':
@@ -26,5 +27,12 @@ if __name__ == '__main__':
 
     verbose = True
     parser = Parser(verbose)
-    parser.parse(tokens)
+    AST = parser.parse(tokens)
+
+    print(AST)
+
+
+    ''' Work In Progress '''
+
+    Visitor = visitor.Visitor()
 
