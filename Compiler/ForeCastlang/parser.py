@@ -123,7 +123,7 @@ class Parser:
             aDecl = self.parse_rainfall(varName)
         self.indentator.dedent()
 
-        return aDecl
+        return [aDecl]
 
     def parse_wind(self, varName):
         self.indentator.indent('Parsing Wind')
@@ -133,7 +133,7 @@ class Parser:
         windDecl = ast.windDecl(varName, params)
         self.indentator.dedent()
 
-        return windDecl
+        return [windDecl]
 
     def parse_vars_wind(self):
         params = []
@@ -147,7 +147,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return params
+        return [params]
 
     def parse_var_wind(self):
         self.indentator.indent('Parsing Var_wind')
@@ -161,7 +161,7 @@ class Parser:
             param = self.parse_direction()
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_sun(self, varName):
         self.indentator.indent('Parsing Sun')
@@ -171,7 +171,7 @@ class Parser:
         sunDecl = ast.sunDecl(varName, params)
         self.indentator.dedent()
 
-        return sunDecl
+        return [sunDecl]
 
     def parse_vars_sun(self):
         params = []
@@ -197,7 +197,7 @@ class Parser:
             param = self.parse_duree()
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_cloud(self, varName):
         self.indentator.indent('Parsing Cloud')
@@ -207,7 +207,7 @@ class Parser:
         cloudDecl = ast.cloudDecl(varName, params)
         self.indentator.dedent()
 
-        return cloudDecl
+        return [cloudDecl]
 
     def parse_vars_cloud(self):
         params = []
@@ -221,7 +221,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return params
+        return [params]
 
     def parse_var_cloud(self):
         self.indentator.indent('Parsing Var_cloud')
@@ -233,7 +233,7 @@ class Parser:
             param = self.parse_duree()
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_rainfall(self, varName):
         self.indentator.indent('Parsing Rainfall')
@@ -243,7 +243,7 @@ class Parser:
         RFDecl = ast.RFDecl(varName, params)
         self.indentator.dedent()
 
-        return RFDecl
+        return [RFDecl]
 
     def parse_vars_rainfall(self):
         params = []
@@ -257,7 +257,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return params
+        return [params]
 
     def parse_var_rainfall(self):
         self.indentator.indent('Parsing Var_rainfall')
@@ -271,7 +271,7 @@ class Parser:
             param = self.parse_type_rainfall()
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_direction(self):
         self.indentator.indent('Parsing Direction')
@@ -283,7 +283,7 @@ class Parser:
             param = ast.Parameter("direction", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_duree(self):
         self.indentator.indent('Parsing Duree')
@@ -294,7 +294,7 @@ class Parser:
         param = ast.Parameter("duree", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_position(self):
         self.indentator.indent('Parsing Position')
@@ -304,7 +304,7 @@ class Parser:
         param = ast.Parameter("position", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_coord(self):
         self.indentator.indent('Parsing Coordinates')
@@ -328,7 +328,7 @@ class Parser:
         param = ast.Parameter("vitesse", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_type_cloud(self):
         self.indentator.indent('Parsing Type_could')
@@ -340,7 +340,7 @@ class Parser:
             param = ast.Parameter("typeCloud", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 	
     def parse_type_rainfall(self):
         self.indentator.indent('Parsing Type_rainfall')
@@ -352,7 +352,7 @@ class Parser:
             param = ast.Parameter("typeRain", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_uv(self):
         self.indentator.indent('Parsing Uv')
@@ -363,7 +363,7 @@ class Parser:
         param = ast.Parameter("uv", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
     def parse_intensite(self):
         self.indentator.indent('Parsing Intensite')
@@ -375,20 +375,19 @@ class Parser:
             param = ast.Parameter("intensite", value)
         self.indentator.dedent()
 
-        return param
+        return [param]
 
 
     def parse_statements(self):
+        statements = []
         self.indentator.indent('Parsing Statements')
         while self.show_next().kind in self.STATEMENT_STARTERS:
-            self.parse_statement()
+            statement = self.parse_statement()
+            statements.append(statement)
         self.expect('ENDMAIN')
         self.indentator.dedent()
 
-        return []
-
-    """a relier"""
-
+        return statements
 
     def parse_statement(self):
         
@@ -396,15 +395,16 @@ class Parser:
         if self.show_next().kind == 'SEMICOLON':
             self.accept_it()
         elif self.show_next().kind == 'IDENTIFIER':
-            self.parse_expression()
+            statement = self.parse_expression()
         elif self.show_next().kind == 'AT':
-            self.parse_atstatement()
+            statement = self.parse_atstatement()
         elif self.show_next().kind == 'IN':
-            self.parse_instatement()
+            statement = self.parse_instatement()
         elif self.show_next().kind == 'MAP':
-            self.parse_map()
+            statement = self.parse_map()
         self.indentator.dedent()
 
+        return [statement]
 
         #####
         
@@ -412,94 +412,127 @@ class Parser:
         self.indentator.indent('Parsing AtStatement')
         self.expect('AT')
         self.expect('BAR')
+        time = self.show_next().value
         self.expect('INT')
+        atStat = [ast.atStatement(time)]
         self.expect('LBRACKET')
-        self.parse_expression()
+        exp = self.parse_expression()
+        atStat.append(exp)
         while self.show_next().kind == 'SEMICOLON':
             self.accept_it()
-            self.parse_expression()
+            exp = self.parse_expression()
+            atStat.append(exp)
         self.expect('RBRACKET')
         self.indentator.dedent()
+
+        return atStat
         
     def parse_instatement(self):
         self.indentator.indent('Parsing InStatement')
         self.expect('IN')
         self.expect('BAR')
+        start = self.show_next().value
         self.expect('INT')
         self.expect('SUB')
+        finish = self.show_next().value
         self.expect('INT')
+        inStat = [ast.inStatement(start, finish)]
         self.expect('LBRACKET')
-        self.parse_expression()
+        exp = self.parse_expression()
+        inStat.append(exp)
         while self.show_next().kind == 'SEMICOLON':
             self.accept_it()
-            self.parse_expression()
+            exp = self.parse_expression()
+            inStat.append(exp)
         self.expect('RBRACKET')
         self.indentator.dedent()
+
+        return inStat
 
     def parse_map(self):
         self.indentator.indent('Parsing Map')
         self.expect('MAP')
         self.expect('LBRACKET')
+        displayed = []
         while(self.show_next().kind == 'IDENTIFIER'):
+            displayed.append(self.show_next().value)
             self.accept_it()
             if self.show_next().kind == 'SEMICOLON':
             	self.accept_it()  
         self.expect('DBAR')
+        longit = self.show_next().value
         self.expect('LATLONG')
         if self.show_next().kind == 'SEMICOLON':
-            self.accept_it()  
+            self.accept_it()
+        latit = self.show_next().value  
         self.expect('LATLONG')
+        longlat = (longit, latit)
         self.expect('DBAR')
+        dimX = self.show_next().value  
         self.expect('INT')
         if self.show_next().kind == 'SEMICOLON':
             self.accept_it() 
+        dimY = self.show_next().value  
         self.expect('INT')
+        dims = (dimX, dimY)
         self.expect('RBRACKET')
         self.indentator.dedent()
+
+        return [ast.mapStatement(displayed, longlat, dims)]
 
 
     def parse_expression(self):
         self.indentator.indent('Parsing Expression')
+        ident = self.show_next().value
         self.expect('IDENTIFIER')
-        self.parse_term()
+        exp = ast.Expression(ident)
+        ope = self.parse_term()
         self.indentator.dedent()
+
+        return [exp, ope]
      
         
             
     def parse_term(self):
         self.indentator.indent('Parsing Term')
         if self.show_next().kind == 'DOT':
-            self.parse_dot()
+            ope = self.parse_dot()
         elif self.show_next().kind == 'ASSIGN':
-            self.parse_declaration()
+            ope = self.parse_declaration()
         elif self.show_next().kind == 'DEL':
-            self.accept_it()
+            ope = self.accept_it()
         elif self.show_next().kind == 'MOVE':
-            self.parse_move()	
+            ope = self.parse_move()	
         self.indentator.dedent()
         
+        return ope
         
     def parse_dot(self):
         self.indentator.indent('Parsing dot')
         self.expect('DOT')
         if self.show_next().kind == 'POSITION':
-            self.parse_position()
+            param = self.parse_position()
         elif self.show_next().kind == 'INTENSITE':
-            self.parse_intensite()
+            param = self.parse_intensite()
         elif self.show_next().kind == 'DUREE':
-            self.parse_duree()
+            param = self.parse_duree()
         elif self.show_next().kind == 'TYPE_RAINFALL':
-            self.parse_type_rainfall()
+            param = self.parse_type_rainfall()
         elif self.show_next().kind == 'TYPE_CLOUD':
-            self.parse_type_cloud()
+            param = self.parse_type_cloud()
         elif self.show_next().kind == 'DIRECTION':
-            self.parse_direction()
+            param = self.parse_direction()
         elif self.show_next().kind == 'VITESSE':
-            self.parse_vitesse()
+            param = self.parse_vitesse()
         self.indentator.dedent()
+
+        return [ast.dotOperation(), param]
         
     def parse_move(self):
         self.indentator.indent('Parsing move')
         self.expect('MOVE')
-        self.parse_coord()
+        coords = self.parse_coord()
+        param = ast.Parameter("position", coords)
         self.indentator.dedent()
+
+        return [ast.moveOperation(), param]

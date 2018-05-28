@@ -59,22 +59,6 @@ class Parameter(ASTNode):
 		self.name = kind
 		self.value = value
 		
-		
-
-# ------------- ? ------------ #
-
-class Type(ASTNode):
-	"""docstring for Type"""
-	def __init__(self):
-		super(Type, self).__init__()
-
-class ArrayOf(Type):
-	"""docstring for ArrayOf"""
-	def __init__(self, size, typeOfElements):
-		super(ArrayOf, self).__init__()
-		self.size = size
-		self.typeOfElements = typeOfElements
-		
 	
 # ------------- Statements ------------ #
 
@@ -83,6 +67,62 @@ class Statement(ASTNode):
 	def __init__(self):
 		super(Statement, self).__init__()
 
-# ------------- Statements ------------ #
+class inStatement(Statement):
+	"""docstring for inStatement"""
+	def __init__(self, start, end):
+		super(inStatement, self).__init__()
+		self.start = start
+		self.end = end
 
-# ------------- Statements ------------ #
+class atStatement(Statement):
+	"""docstring for atStatement"""
+	def __init__(self, time):
+		super(atStatement, self).__init__()
+		self.time = time
+		
+class mapStatement(Statement):
+	"""docstring for mapStatement"""
+	def __init__(self, displayed, longlat, dims):
+		super(mapStatement, self).__init__()
+		self.displayed = displayed
+		self.longlat = longlat
+		self.dims = dims
+
+
+# ------------- Expressions ------------ #
+
+class Expression(ASTNode):
+	"""docstring for Expression"""
+	def __init__(self, identifier):
+		super(Expression, self).__init__()
+		self.identifier = identifier
+
+# ------------- Operations ------------ #
+
+class Operation(ASTNode):
+	"""docstring for Operation"""
+	def __init__(self):
+		super(Operation, self).__init__()
+
+class dotOperation(Operation):
+	"""docstring for dotOperation"""
+	def __init__(self):
+		super(dotOperation, self).__init__()
+		
+class assignOperation(Operation):
+	"""docstring for assignOperation"""
+	def __init__(self):
+		super(assignOperation, self).__init__()
+
+class delOperation(Operation):
+	"""docstring for delOperation"""
+	def __init__(self):
+		super(delOperation, self).__init__()
+
+class moveOperation(Operation):
+	"""docstring for moveOperation"""
+	def __init__(self):
+		super(moveOperation, self).__init__()
+		
+
+		
