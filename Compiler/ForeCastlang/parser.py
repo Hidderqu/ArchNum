@@ -123,7 +123,7 @@ class Parser:
             aDecl = self.parse_rainfall(varName)
         self.indentator.dedent()
 
-        return [aDecl]
+        return aDecl
 
     def parse_wind(self, varName):
         self.indentator.indent('Parsing Wind')
@@ -133,7 +133,7 @@ class Parser:
         windDecl = ast.windDecl(varName, params)
         self.indentator.dedent()
 
-        return [windDecl]
+        return windDecl
 
     def parse_vars_wind(self):
         params = []
@@ -147,7 +147,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return [params]
+        return params
 
     def parse_var_wind(self):
         self.indentator.indent('Parsing Var_wind')
@@ -161,7 +161,7 @@ class Parser:
             param = self.parse_direction()
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_sun(self, varName):
         self.indentator.indent('Parsing Sun')
@@ -171,7 +171,7 @@ class Parser:
         sunDecl = ast.sunDecl(varName, params)
         self.indentator.dedent()
 
-        return [sunDecl]
+        return sunDecl
 
     def parse_vars_sun(self):
         params = []
@@ -197,7 +197,7 @@ class Parser:
             param = self.parse_duree()
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_cloud(self, varName):
         self.indentator.indent('Parsing Cloud')
@@ -207,7 +207,7 @@ class Parser:
         cloudDecl = ast.cloudDecl(varName, params)
         self.indentator.dedent()
 
-        return [cloudDecl]
+        return cloudDecl
 
     def parse_vars_cloud(self):
         params = []
@@ -221,7 +221,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return [params]
+        return params
 
     def parse_var_cloud(self):
         self.indentator.indent('Parsing Var_cloud')
@@ -233,7 +233,7 @@ class Parser:
             param = self.parse_duree()
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_rainfall(self, varName):
         self.indentator.indent('Parsing Rainfall')
@@ -243,7 +243,7 @@ class Parser:
         RFDecl = ast.RFDecl(varName, params)
         self.indentator.dedent()
 
-        return [RFDecl]
+        return RFDecl
 
     def parse_vars_rainfall(self):
         params = []
@@ -257,7 +257,7 @@ class Parser:
             params.append(param)
         self.indentator.dedent()
 
-        return [params]
+        return params
 
     def parse_var_rainfall(self):
         self.indentator.indent('Parsing Var_rainfall')
@@ -271,7 +271,7 @@ class Parser:
             param = self.parse_type_rainfall()
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_direction(self):
         self.indentator.indent('Parsing Direction')
@@ -283,7 +283,7 @@ class Parser:
             param = ast.Parameter("direction", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_duree(self):
         self.indentator.indent('Parsing Duree')
@@ -294,7 +294,7 @@ class Parser:
         param = ast.Parameter("duree", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_position(self):
         self.indentator.indent('Parsing Position')
@@ -304,7 +304,7 @@ class Parser:
         param = ast.Parameter("position", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_coord(self):
         self.indentator.indent('Parsing Coordinates')
@@ -328,7 +328,7 @@ class Parser:
         param = ast.Parameter("vitesse", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_type_cloud(self):
         self.indentator.indent('Parsing Type_could')
@@ -340,7 +340,7 @@ class Parser:
             param = ast.Parameter("typeCloud", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 	
     def parse_type_rainfall(self):
         self.indentator.indent('Parsing Type_rainfall')
@@ -352,7 +352,7 @@ class Parser:
             param = ast.Parameter("typeRain", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_uv(self):
         self.indentator.indent('Parsing Uv')
@@ -363,7 +363,7 @@ class Parser:
         param = ast.Parameter("uv", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
     def parse_intensite(self):
         self.indentator.indent('Parsing Intensite')
@@ -375,7 +375,7 @@ class Parser:
             param = ast.Parameter("intensite", value)
         self.indentator.dedent()
 
-        return [param]
+        return param
 
 
     def parse_statements(self):
@@ -404,7 +404,7 @@ class Parser:
             statement = self.parse_map()
         self.indentator.dedent()
 
-        return [statement]
+        return statement
 
         #####
         
@@ -478,7 +478,7 @@ class Parser:
         self.expect('RBRACKET')
         self.indentator.dedent()
 
-        return [ast.mapStatement(displayed, longlat, dims)]
+        return ast.mapStatement(displayed, longlat, dims)
 
 
     def parse_expression(self):
@@ -489,7 +489,7 @@ class Parser:
         ope = self.parse_term()
         self.indentator.dedent()
 
-        return [exp, ope]
+        return exp, ope
      
         
             
@@ -526,7 +526,7 @@ class Parser:
             param = self.parse_vitesse()
         self.indentator.dedent()
 
-        return [ast.dotOperation(), param]
+        return ast.dotOperation(), param
         
     def parse_move(self):
         self.indentator.indent('Parsing move')
@@ -535,4 +535,4 @@ class Parser:
         param = ast.Parameter("position", coords)
         self.indentator.dedent()
 
-        return [ast.moveOperation(), param]
+        return ast.moveOperation(), param

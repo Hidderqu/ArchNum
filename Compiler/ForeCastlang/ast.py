@@ -4,13 +4,18 @@ class ASTNode(object):
 	"""docstring for ASTNode"""
 	def __init__(self):
 		super(ASTNode, self).__init__()
-		self.name = "Node"
 
 	def __str__(self):
 		print ("Node : {}".format(self.name))
 
-	def visit(self, visitor):
-		return(self.name)
+
+# ------------- Program ------------ #
+class Program(ASTNode):
+	"""docstring for Program"""
+	def __init__(self, declarations, statements):
+		super(Program, self).__init__()
+		self.declarations = declarations
+		self.statements = statements
 
 # ------------- Declarations ------------ #
 
@@ -23,7 +28,6 @@ class windDecl(Declaration):
 	"""docstring for windDecl"""
 	def __init__(self, identifier, params):
 		super(windDecl, self).__init__()
-		self.name = "windDecl"
 		self.identifier = identifier
 		self.params = params
 
@@ -31,7 +35,6 @@ class sunDecl(Declaration):
 	"""docstring for sunDecl"""
 	def __init__(self, identifier, params):
 		super(sunDecl, self).__init__()
-		self.name = "sunDecl"
 		self.identifier = identifier
 		self.params = params
 
@@ -39,7 +42,6 @@ class cloudDecl(Declaration):
 	"""docstring for cloudDecl"""
 	def __init__(self, identifier, params):
 		super(cloudDecl, self).__init__()
-		self.name = "cloudDecl"
 		self.identifier = identifier
 		self.params = params
 
@@ -47,7 +49,6 @@ class RFDecl(Declaration):
 	"""docstring for RFDecl"""
 	def __init__(self, identifier, params):
 		super(RFDecl, self).__init__()
-		self.name = "RFDecl"
 		self.identifier = identifier
 		self.params = params
 
@@ -69,16 +70,18 @@ class Statement(ASTNode):
 
 class inStatement(Statement):
 	"""docstring for inStatement"""
-	def __init__(self, start, end):
+	def __init__(self, start, end, expressions):
 		super(inStatement, self).__init__()
 		self.start = start
 		self.end = end
+		self.expressions = expressions
 
 class atStatement(Statement):
 	"""docstring for atStatement"""
-	def __init__(self, time):
+	def __init__(self, time, expressions):
 		super(atStatement, self).__init__()
 		self.time = time
+		self.expressions = expressions
 		
 class mapStatement(Statement):
 	"""docstring for mapStatement"""
@@ -93,9 +96,10 @@ class mapStatement(Statement):
 
 class Expression(ASTNode):
 	"""docstring for Expression"""
-	def __init__(self, identifier):
+	def __init__(self, identifier, operation):
 		super(Expression, self).__init__()
 		self.identifier = identifier
+		self.operation = operation
 
 # ------------- Operations ------------ #
 
@@ -106,13 +110,15 @@ class Operation(ASTNode):
 
 class dotOperation(Operation):
 	"""docstring for dotOperation"""
-	def __init__(self):
+	def __init__(self, param):
 		super(dotOperation, self).__init__()
+		self.param = param
 		
 class assignOperation(Operation):
 	"""docstring for assignOperation"""
-	def __init__(self):
+	def __init__(self, decl):
 		super(assignOperation, self).__init__()
+		self.decl = decl
 
 class delOperation(Operation):
 	"""docstring for delOperation"""
@@ -121,8 +127,9 @@ class delOperation(Operation):
 
 class moveOperation(Operation):
 	"""docstring for moveOperation"""
-	def __init__(self):
+	def __init__(self, coord_param):
 		super(moveOperation, self).__init__()
+		self.coords = coord_param
 		
 
 		
