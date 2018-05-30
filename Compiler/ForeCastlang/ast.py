@@ -8,6 +8,14 @@ class ASTNode(object):
 	def __str__(self):
 		print ("Node : {}".format(self.name))
 
+	def accept(self, visitor):
+		#on recupere le nom de la classe  specialisee de l'AST
+		className = self.__class__.__name__
+		#on recupere la methode du visitor qui se nomme visit_<className>
+		func = getattr(visitor, 'visit_' + className)
+		#on appelle la methode avec le noeud de l'ast courrant en parametre
+		return func(self)
+
 
 # ------------- Program ------------ #
 class Program(ASTNode):

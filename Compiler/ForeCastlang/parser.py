@@ -75,15 +75,14 @@ class Parser:
         return self.parse_program()
 
     def parse_program(self):
-        program = []
         self.indentator.indent('Parsing Program')
         declarations = self.parse_declarations()
-        program.append(declarations)
         
         self.expect('MAIN')
         stats = self.parse_statements()
-        program.append(stats)
         self.indentator.dedent()
+
+        AST_Root = ast.Program(declarations, stats)
 
         if (self.errors == 1):
             print('WARNING: 1 error found!')
@@ -92,7 +91,7 @@ class Parser:
         else:
             print('parser: syntax analysis successful!')
 
-        return program
+        return AST_Root
 
     def parse_declarations(self):
         declarations = []
@@ -414,14 +413,15 @@ class Parser:
         self.expect('BAR')
         time = self.show_next().value
         self.expect('INT')
-        atStat = [ast.atStatement(time)]
         self.expect('LBRACKET')
+        expressions = []
         exp = self.parse_expression()
-        atStat.append(exp)
+        expressions.append(exp)
         while self.show_next().kind == 'SEMICOLON':
             self.accept_it()
             exp = self.parse_expression()
-            atStat.append(exp)
+            expressions.append(exp)
+        atStat = ast.atStatement(time, expressions)
         self.expect('RBRACKET')
         self.indentator.dedent()
 
@@ -436,14 +436,15 @@ class Parser:
         self.expect('SUB')
         finish = self.show_next().value
         self.expect('INT')
-        inStat = [ast.inStatement(start, finish)]
         self.expect('LBRACKET')
+        expressions = []
         exp = self.parse_expression()
-        inStat.append(exp)
+        expressions.append(exp)
         while self.show_next().kind == 'SEMICOLON':
             self.accept_it()
             exp = self.parse_expression()
-            inStat.append(exp)
+            expressions.append(exp)
+        inStat = ast.inStatement(start, finish, expressions)
         self.expect('RBRACKET')
         self.indentator.dedent()
 
@@ -485,11 +486,10 @@ class Parser:
         self.indentator.indent('Parsing Expression')
         ident = self.show_next().value
         self.expect('IDENTIFIER')
-        exp = ast.Expression(ident)
         ope = self.parse_term()
         self.indentator.dedent()
 
-        return exp, ope
+        return ast.Expression(ident, ope)
      
         
             
@@ -498,9 +498,10 @@ class Parser:
         if self.show_next().kind == 'DOT':
             ope = self.parse_dot()
         elif self.show_next().kind == 'ASSIGN':
-            ope = self.parse_declaration()
+            ope = ast.assingOperation(self.parse_declaration())
         elif self.show_next().kind == 'DEL':
-            ope = self.accept_it()
+            ope = ast.delOperation()
+            self.accept_it()
         elif self.show_next().kind == 'MOVE':
             ope = self.parse_move()	
         self.indentator.dedent()
@@ -526,7 +527,7 @@ class Parser:
             param = self.parse_vitesse()
         self.indentator.dedent()
 
-        return ast.dotOperation(), param
+        return ast.dotOperation(param)
         
     def parse_move(self):
         self.indentator.indent('Parsing move')
@@ -535,4 +536,4 @@ class Parser:
         param = ast.Parameter("position", coords)
         self.indentator.dedent()
 
-        return ast.moveOperation(), param
+        return ast.moveOperation(param)

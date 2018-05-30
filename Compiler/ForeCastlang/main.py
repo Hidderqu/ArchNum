@@ -29,10 +29,8 @@ if __name__ == '__main__':
     parser = Parser(verbose)
     AST = parser.parse(tokens)
 
-    print(AST)
 
 
-    ''' Work In Progress '''
-
-    Visitor = visitor.Visitor()
-
+    visitor = visitor.DefaultVisitor()
+    #demarrage
+    visitor.visit(AST) #mettre nom de l'arbre, c'est cette ligne qui lance le visiteur
