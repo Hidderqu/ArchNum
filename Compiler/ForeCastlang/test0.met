@@ -1,48 +1,127 @@
+/* Declaration d une variable decrivant un vent */
+
 wind1 =
 	wind{
-	vitesse:20;
-	direction:>;
-	position:(10,10);
-	duree:10
+
+	/* Vitesse du vent entiere en km par h */
+	vitesse:20; 
+
+	/* Direction du vent : > ou < ou ^ ou V */
+	direction:>; 
+
+	/* Position sur la carte : (int,int) */
+	position:(10,10); 
+
+	/* Duree d affichage de la variable : int */
+	duree:10 
+
 	}
+
+
+/* Declaration d une variable decrivant un ensoleillement */
 
 sun1 =
 	sun{
-	indiceUV:41;
-	position:(14,12);
-	duree:21
+
+	/* Indice UV associe : int */
+	indiceUV:41; 
+	
+	/* Position sur la carte : (int,int) */
+	position:(14,12); 
+
+	/* Duree d affichage de la variable : int */
+	duree:21 
+
 	}
+
+
+/* Declaration d une variable decrivant un nuage */
 
 cloud1 =
 	cloud{
-	type_cloud:cumulonimbus;
-	position:(14,16);
-	duree:41
+
+	/* Type de nuage : cumulonimbus ou cirrus ou cumulus */
+	type_cloud:cumulonimbus; 
+
+	/* Position sur la carte : (int,int) */
+	position:(14,16); 
+
+	/* Duree d affichage de la variable : int */
+	duree:41 
+
 	}
+
+/* Declaration d une variable decrivant une precipitation */
 
 rainfall1 =
 	rainfall{
-	type_rainfall:pluie;
-	intensite:forte;
-	position:(24,41);
-	duree:14
+
+	/* Type de precipitation : pluie ou neige */
+	type_rainfall:pluie; 
+
+	/* Intensite de la precipitation : faible ou normale ou forte */
+	intensite:forte; 
+
+	/* Position sur la carte : (int,int) */
+	position:(24,41); 
+
+	/* Duree d affichage de la variable : int */
+	duree:14 
+
 	}
+
+
+/* Processus destines a changer l affichage au court du temps dans cette partie on peut egalement definir et modifier des variables, tout se fait apres le lexeme forecast% */
 
 forecast%
 
+
+/* Dans l intervalle de temps [10;16] */
 in | 10-16
 [
+/* Deplacement de la variable sun1 a la position (24;13) */
 sun1 -> (24,13);
 
+/* Changement de la vitesse du vent wind1 */
 wind1.vitesse:12;
+
+/* Changement de la direction du vent wind1 */
 wind1.direction:V
 ]
 
+
+/* Declaration d une variable rainfall hors d une boucle in ou at */
+rainfall2 =
+	rainfall{
+	type_rainfall:pluie; 
+	intensite:forte; 
+	position:(21,41); 
+	duree:14 
+	}
+
+
+/* A l instant de temps 18 */
 at | 18
 [
-sun1 *
+/* Suppression de la variable sun1 */
+sun1 *;
+
+/* Declaration d une variable dans une boucle in ou at */
+rainfall3 =
+	rainfall{
+	type_rainfall:neige; 
+	intensite:faible; 
+	position:(21,43); 
+	duree:4 
+	}
 ]
 
+/* Definit les parametres d affichage :
+On veut afficher les variables wind1,cloud1,sun1,rainfall1, 
+sur une carte centree sur la longitude 15.65 et la latitude 54.54
+de dimensions entieres (24,14)
+*/
 map [wind1;cloud1;sun1;rainfall1 // 15.65;54.54 // 24;14]
 
+/* Le programme doit toujours terminer par le lexeme %forecast */
 %forecast

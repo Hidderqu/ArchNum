@@ -58,9 +58,7 @@ class Parser:
         result = []
         in_comment = False
         for token in self.tokens:
-            if token.kind == 'COMMENT':
-                pass
-            elif token.kind == 'LCOMMENT':
+            if token.kind == 'LCOMMENT':
                 in_comment = True
             elif token.kind == 'RCOMMENT':
                 in_comment = False
@@ -486,19 +484,19 @@ class Parser:
         self.indentator.indent('Parsing Expression')
         ident = self.show_next().value
         self.expect('IDENTIFIER')
-        ope = self.parse_term()
+        ope = self.parse_term(ident)
         self.indentator.dedent()
 
         return ast.Expression(ident, ope)
      
         
             
-    def parse_term(self):
+    def parse_term(self, ident):
         self.indentator.indent('Parsing Term')
         if self.show_next().kind == 'DOT':
             ope = self.parse_dot()
         elif self.show_next().kind == 'ASSIGN':
-            ope = ast.assingOperation(self.parse_declaration())
+            ope = ast.assignOperation(self.parse_declaration(ident))
         elif self.show_next().kind == 'DEL':
             ope = ast.delOperation()
             self.accept_it()

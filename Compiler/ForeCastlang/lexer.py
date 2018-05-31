@@ -1,6 +1,6 @@
 import re
 import sys
-from token import Token
+from token1 import Token
 
 regexExpressions = [
     (r'[ \n\t]+', None),
@@ -55,6 +55,7 @@ regexExpressions = [
     (r'\d+\.\d+', 'LATLONG'),
     (r'\d+', 'INT'),
     (r'[a-z0-9_]+', 'IDENTIFIER'),
+    (r'[a-zA-Z]\w*', 'IDENTIFIERCOMMENT')
 ]
 
 

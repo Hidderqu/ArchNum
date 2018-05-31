@@ -14,7 +14,8 @@ class ASTNode(object):
 		#on recupere la methode du visitor qui se nomme visit_<className>
 		func = getattr(visitor, 'visit_' + className)
 		#on appelle la methode avec le noeud de l'ast courrant en parametre
-		return func(self)
+		func()
+		#Etrangement il est indiqué qu'un paramètre a été passé à la fonction func... nous ne voyons pas lequel.
 
 
 # ------------- Program ------------ #
